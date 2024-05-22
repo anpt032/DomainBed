@@ -5,7 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as F
 import torchvision.models
 
-from domainbed.lib import wide_resnet
+from DomainBed.domainbed.lib import wide_resnet
 import copy
 
 
@@ -68,7 +68,7 @@ class MLP(nn.Module):
 
 class ResNet(torch.nn.Module):
     """ResNet with the softmax chopped off and the batchnorm frozen"""
-    def __init__(self, input_shape, resnet18=True):
+    def __init__(self, input_shape, resnet18=True, resnet_dropout=0.0):
         super(ResNet, self).__init__()
         if resnet18:
             self.network = torchvision.models.resnet18(pretrained=True)
@@ -96,8 +96,7 @@ class ResNet(torch.nn.Module):
         self.network.fc = Identity()
 
         self.freeze_bn()
-        self.hparams = hparams
-        self.dropout = nn.Dropout(hparams['resnet_dropout'])
+        self.dropout = nn.Dropout(resnet_dropout)
 
     def forward(self, x):
         """Encode x into a feature vector of size n_outputs."""
