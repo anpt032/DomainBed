@@ -251,7 +251,7 @@ class SmallNORB(VisionDataset):
         return f"Split: {split}"
     
 
-class SmallNORBCausalAttribute(MultipleDomainDataset):
+class LightingSmallNORB(MultipleDomainDataset):
     N_STEPS = 5001
     CHECKPOINT_FREQ = 500
     ENVIRONMENTS = ["+90%", "+95%", "-0%", "-0%"]
